@@ -92,35 +92,64 @@ The result is a professional-grade AI media production pipeline with a zero-fric
 
 ### Data Flow
 
+```mermaid
+flowchart TD
+    classDef userStyle fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#e0e7ff,rx:12
+    classDef frontendStyle fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#bae6fd,rx:12
+    classDef backendStyle fill:#0f172a,stroke:#a78bfa,stroke-width:2px,color:#ddd6fe,rx:12
+    classDef orchestratorStyle fill:#2e1065,stroke:#c084fc,stroke-width:3px,color:#f3e8ff,rx:12
+    classDef runwayStyle fill:#1a1a2e,stroke:#f97316,stroke-width:2px,color:#fed7aa,rx:10
+    classDef elevenStyle fill:#1a1a2e,stroke:#22d3ee,stroke-width:2px,color:#a5f3fc,rx:10
+    classDef tripoStyle fill:#1a1a2e,stroke:#34d399,stroke-width:2px,color:#a7f3d0,rx:10
+    classDef pollinStyle fill:#1a1a2e,stroke:#fb7185,stroke-width:2px,color:#fecdd3,rx:10
+    classDef b2Style fill:#450a0a,stroke:#ef4444,stroke-width:3px,color:#fef2f2,rx:12
+    classDef storageStyle fill:#1c1917,stroke:#ef4444,stroke-width:1px,color:#fca5a5,rx:8
+    classDef returnStyle fill:#052e16,stroke:#4ade80,stroke-width:2px,color:#bbf7d0,rx:12
+
+    USER(["👤 User Prompt\n─────────────\nType in Chat UI"]):::userStyle
+    UI(["💻 React / Vite Frontend\n─────────────────────────\nProject Chat · Asset Library"]):::frontendStyle
+    API(["⚡ FastAPI Backend\n──────────────────\nPython · Async Routes"]):::backendStyle
+    ORCH(["🧠 Genblaze Orchestrator\n────────────────────────────\ngenblaze_client.py\nRoutes by media_type"]):::orchestratorStyle
+
+    RUNWAY(["🎬 Runway Gen-4.5\n──────────────────\nText-to-Video\n5s · 1280×720"]):::runwayStyle
+    ELEVEN(["🔊 ElevenLabs\n──────────────────\nText-to-Audio\neleven_monolingual_v1"]):::elevenStyle
+    TRIPO(["🧊 Tripo3D v3.1\n──────────────────\nText-to-3D\nGLB Format"]):::tripoStyle
+    POLLIN(["🖼️ Pollinations.ai\n──────────────────\nText-to-Image\nFlux · Free Tier"]):::pollinStyle
+
+    B2[("☁️ Backblaze B2\n────────────────────\nboto3 · S3-Compatible\nPermanent Cloud Vault")]:::b2Style
+
+    MP4["📁 .mp4 Video"]:::storageStyle
+    MP3["📁 .mp3 Audio"]:::storageStyle
+    GLB["📁 .glb 3D Model"]:::storageStyle
+    PNG["📁 .png Image"]:::storageStyle
+    JSON["📋 .json Provenance\n─ prompt · model · timestamp"]:::storageStyle
+
+    URL(["🔗 Pre-signed URL\n─────────────────────\nReturned to Frontend\n24-hour Access Token"]):::returnStyle
+
+    USER -->|"Submits prompt +\nmedia type"| UI
+    UI -->|"POST /api/generate"| API
+    API -->|"Dispatch request"| ORCH
+
+    ORCH -->|"media_type: video"| RUNWAY
+    ORCH -->|"media_type: audio"| ELEVEN
+    ORCH -->|"media_type: 3d"| TRIPO
+    ORCH -->|"media_type: image"| POLLIN
+
+    RUNWAY -->|"Raw bytes"| B2
+    ELEVEN -->|"Raw bytes"| B2
+    TRIPO -->|"Raw bytes"| B2
+    POLLIN -->|"Raw bytes"| B2
+
+    B2 --> MP4
+    B2 --> MP3
+    B2 --> GLB
+    B2 --> PNG
+    B2 --> JSON
+
+    B2 -->|"generate_presigned_url()"| URL
+    URL -->|"Asset rendered in chat\n+ Asset Library"| UI
 ```
-User Prompt → React Chat UI
-                    │
-                    ▼
-         FastAPI Backend (Python)
-                    │
-         ┌──────────┴──────────────┐
-         │   Genblaze Orchestrator  │
-         └──────────┬──────────────┘
-                    │ Routes by media_type
-        ┌───────────┼──────────────┬──────────────┐
-        ▼           ▼              ▼              ▼
-   Runway Gen-4.5  ElevenLabs  Tripo3D v3.1  Pollinations
-   (Video)         (Audio)     (3D .glb)     (Image)
-        │           │              │              │
-        └───────────┴──────────────┴──────────────┘
-                    │ Raw Bytes + Metadata
-                    ▼
-         Backblaze B2 Storage (boto3 / S3-compat)
-         ├── projects/{name}/assets/{file}.mp4
-         ├── projects/{name}/assets/{file}.mp3
-         ├── projects/{name}/assets/{file}.glb
-         ├── projects/{name}/assets/{file}.png
-         └── projects/{name}/assets/{file}.json  ← Provenance Metadata
-                    │
-                    ▼
-         Pre-signed URL returned to UI
-         Asset displayed in Project Chat + Asset Library
-```
+
 
 ### Architecture Highlights
 

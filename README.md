@@ -1,6 +1,6 @@
-# Vanta Studio — The Unified AI Generative Media Workspace
+# Vanta Studio — The Agentic Creative Workspace for AI Media Production
 
-> **"Generate images, video, audio, and 3D assets through a single chat-driven interface — with every asset automatically vaulted to Backblaze B2."**
+> **"Generate, orchestrate, and manage images, videos, audio, and 3D assets through intelligent AI workflows—automatically organized and securely stored in Backblaze B2."**
 
 [![Backblaze Generative Media Hackathon](https://img.shields.io/badge/Backblaze-Generative%20Media%20Hackathon-d61521?style=for-the-badge&logo=backblaze)](#)
 [![Powered by Genblaze](https://img.shields.io/badge/Powered%20by-Genblaze-8b5cf6?style=for-the-badge)](#genblaze-orchestration)
@@ -381,4 +381,4 @@ Vanta-Studio/
 
 ---
 
-**Vanta Studio** | Backblaze Generative Media Hackathon 2026 | 
+**Vanta Studio** | Backblaze Generative Media Hackathon 2026 | Naveen Kumar

@@ -6,10 +6,6 @@
 [![Powered by Genblaze](https://img.shields.io/badge/Powered%20by-Genblaze-8b5cf6?style=for-the-badge)](#genblaze-orchestration)
 [![Deployed on Render + Vercel](https://img.shields.io/badge/Live-Render%20%2B%20Vercel-22c55e?style=for-the-badge)](#live-deployment)
 
-<p align="center">
-  <img src="logo.png" alt="Vanta Studio Logo" width="220"/>
-</p>
-
 ---
 
 ## Table of Contents
@@ -385,4 +381,4 @@ Vanta-Studio/
 
 ---
 
-**Vanta Studio** | Backblaze Generative Media Hackathon 2026 | Team: Nexorax
+**Vanta Studio** | Backblaze Generative Media Hackathon 2026 | 

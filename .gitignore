@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+__pycache__/
+*.mp4
+*.mp3
+*.glb

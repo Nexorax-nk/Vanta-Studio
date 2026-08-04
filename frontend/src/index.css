@@ -2559,8 +2559,6 @@ body {
   box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
 }
 
-}
-
 @keyframes wave-bounce {
   0% { height: 15%; }
   100% { height: 100%; }
